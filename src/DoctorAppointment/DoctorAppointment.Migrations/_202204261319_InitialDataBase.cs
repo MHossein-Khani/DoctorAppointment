@@ -1,19 +1,19 @@
 ﻿using FluentMigrator;
-using System;
 
 namespace DoctorAppointment.Migrations
 {
-    [Migration(202204261152)]
-    public class _202204261152_InitialDataBase : Migration
+    [Migration(202204261319)]
+    public class _202204261319_InitialDataBase : Migration
     {
         public override void Up()
         {
-            CreateAppointment();
+            CreateDoctor();
 
             CreatePatient();
 
-            CreateDoctor();
+            CreateAppointment();
         }
+
         public override void Down()
         {
             Delete.Table("Appointments");

@@ -10,13 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DoctorAppointment.Entities\DoctorAppointment.Entities.csproj" />
     <ProjectReference Include="..\DoctorAppointment.Infrastructure\DoctorAppointment.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Doctors\" />
-    <Folder Include="Appointments\" />
-    <Folder Include="Patients\" />
   </ItemGroup>
 
 </Project>
