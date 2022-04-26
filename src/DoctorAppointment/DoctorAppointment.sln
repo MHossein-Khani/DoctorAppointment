@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.Entities", "DoctorAppointment.Entities\DoctorAppointment.Entities.csproj", "{76B2E6FD-1058-4CD5-BB96-D558096E1D6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointment.Entities", "DoctorAppointment.Entities\DoctorAppointment.Entities.csproj", "{76B2E6FD-1058-4CD5-BB96-D558096E1D6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.Migrations", "DoctorAppointment.Migrations\DoctorAppointment.Migrations.csproj", "{EA5980D6-BB25-412F-92B3-62981ECCF827}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointment.Migrations", "DoctorAppointment.Migrations\DoctorAppointment.Migrations.csproj", "{EA5980D6-BB25-412F-92B3-62981ECCF827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.Infrastructure", "DoctorAppointment.Infrastructure\DoctorAppointment.Infrastructure.csproj", "{1F71B771-F5A0-4617-9240-1D882215182D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointment.Infrastructure", "DoctorAppointment.Infrastructure\DoctorAppointment.Infrastructure.csproj", "{1F71B771-F5A0-4617-9240-1D882215182D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.Persistence.EF", "DoctorAppointment.Persistence.EF\DoctorAppointment.Persistence.EF.csproj", "{539BB90F-00E3-45A1-A19E-2C7BE9D002A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorAppointment.Persistence.EF", "DoctorAppointment.Persistence.EF\DoctorAppointment.Persistence.EF.csproj", "{539BB90F-00E3-45A1-A19E-2C7BE9D002A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorAppointment.RestAPI", "DoctorAppointment.RestAPI\DoctorAppointment.RestAPI.csproj", "{946AE65B-C9D6-477B-834D-555702A6186D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{539BB90F-00E3-45A1-A19E-2C7BE9D002A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{539BB90F-00E3-45A1-A19E-2C7BE9D002A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{539BB90F-00E3-45A1-A19E-2C7BE9D002A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{946AE65B-C9D6-477B-834D-555702A6186D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{946AE65B-C9D6-477B-834D-555702A6186D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{946AE65B-C9D6-477B-834D-555702A6186D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{946AE65B-C9D6-477B-834D-555702A6186D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
