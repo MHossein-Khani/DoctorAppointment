@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace DoctorAppointment.Service.Doctors.Contracts
 {
-    public interface DoctorRipository 
+    public interface DoctorRipository
     {
-        bool IsExistNAtionalCode(string nationalCode);
+        bool IsExistNationalCode(string nationalCode);
+
+        bool IsRepeatNationalCode(string NationalCode, int id);
 
         void Create(Doctor doctor);
 
         List<GetDoctorDto> GetAll();
+
+        Doctor FindById(int id);
+
+        void Delete(int id);
     }
 
 }

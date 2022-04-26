@@ -16,7 +16,7 @@ namespace DoctorAppointment.Persistence.EF.Doctors
         {
             _dbContext = dbContext;
         }
-        public bool IsExistNAtionalCode(string nationalCode)
+        public bool IsExistNationalCode(string nationalCode)
         {
             return _dbContext.Doctors.Any(p => p.NationalCode == nationalCode);
         }
@@ -36,6 +36,21 @@ namespace DoctorAppointment.Persistence.EF.Doctors
             }).ToList();
         }
 
-       
+        public Doctor FindById(int id)
+        {
+            return _dbContext.Doctors.Find(id);
+        }
+
+        public bool IsRepeatNationalCode(string NationalCode, int id)
+        {
+            return _dbContext.Doctors.Any(_ => _.NationalCode == NationalCode && _.Id != id);
+        }
+
+        public void Delete(int id)
+        {
+            var doctor = _dbContext.Doctors.Find(id);
+
+            _dbContext.Doctors.Remove(doctor);
+        }
     }
 }

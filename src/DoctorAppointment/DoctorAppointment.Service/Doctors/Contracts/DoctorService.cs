@@ -10,15 +10,11 @@ namespace DoctorAppointment.Service.Doctors.Contracts
     {
         void Create(CreateDoctorDto dto);
 
-        List<GetDoctorDto> GetAll()
+        List<GetDoctorDto> GetAll();
+
+        void Update(UpdateDoctorDto dto, int id);
+
+        void Delete(int id);
     }
 
-    public class GetDoctorDto
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string NationalCode { get; set; }
-        public string Field { get; set; }
-    }
 }

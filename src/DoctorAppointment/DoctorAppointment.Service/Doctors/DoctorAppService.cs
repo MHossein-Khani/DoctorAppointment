@@ -32,7 +32,7 @@ namespace DoctorAppointment.Service.Doctors
             };
 
             var isDoctorExist = _doctorRipository.
-                IsExistNAtionalCode(dto.NationalCode);
+                IsExistNationalCode(dto.NationalCode);
             if (isDoctorExist)
             {
                 throw new DoctorIsAlreadyExistException();
@@ -42,9 +42,47 @@ namespace DoctorAppointment.Service.Doctors
             _unitOfWork.Commit();
         }
 
+        
+
         public List<GetDoctorDto> GetAll()
         {
            return _doctorRipository.GetAll();
+        }
+
+        public void Update(UpdateDoctorDto dto, int id)
+        {
+            var doctor = _doctorRipository.FindById(id);
+
+            var isExistNationalCode = _doctorRipository.
+                IsRepeatNationalCode(dto.NationalCode, id);
+            if (isExistNationalCode)
+            {
+                throw new NationalCodeIsAlreadyExistException();
+            }
+
+            if(doctor == null)
+            {
+                throw new DoctorDoesNotExistException();
+            }
+
+            doctor.FirstName = dto.FirstName;
+            doctor.LastName = dto.LastName;
+            doctor.NationalCode = dto.NationalCode;
+            doctor.Field = dto.Field;
+
+            _unitOfWork.Commit();
+        }
+
+        public void Delete(int id)
+        {
+            var doctor = _doctorRipository.FindById(id);
+            if (doctor == null)
+            {
+                throw new DoctorIsNotExistException();
+            }
+
+            _doctorRipository.Delete(id);
+            _unitOfWork.Commit();
         }
     }
 }
