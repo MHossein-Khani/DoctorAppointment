@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DoctorAppointment.Service.Appointments.Contract
 {
-    public interface AppointmentService
+    public class UpdateAppointmentDto
     {
-        void MakeAppointment(CreateAppointmentDto dto);
-
-        void Update(UpdateAppointmentDto dto, int id);
+        public DateTime Date { get; set; }
+        public int DoctorId { get; set; }
+        public int PatientId { get; set; }
     }
 }

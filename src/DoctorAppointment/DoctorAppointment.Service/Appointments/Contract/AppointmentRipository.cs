@@ -12,5 +12,7 @@ namespace DoctorAppointment.Service.Appointments.Contract
         int Count(int doctorId, DateTime dateTime);
 
         void MakeAppointment(Appointment appointment);
+
+        Appointment FindById(int id);
     }
 }

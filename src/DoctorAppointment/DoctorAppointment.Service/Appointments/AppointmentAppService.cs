@@ -34,5 +34,13 @@ namespace DoctorAppointment.Service.Appointments
             _appointmentRipository.MakeAppointment(appointment);
             _unitOfWork.Commit();
         }
+
+        public void Update(UpdateAppointmentDto dto, int id)
+        {
+            var appointmentOfDoctor = _appointmentRipository.FindById(id);
+
+            appointmentOfDoctor.DoctorId = dto.DoctorId;
+            appointmentOfDoctor.Date = dto.Date;
+        }
     }
 }

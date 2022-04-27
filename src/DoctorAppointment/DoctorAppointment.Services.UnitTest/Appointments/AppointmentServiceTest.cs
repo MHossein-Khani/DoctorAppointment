@@ -81,10 +81,42 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
 
             Action expected = () => _sut.MakeAppointment(dto);
             expected.Should().ThrowExactly<AppointmentOfDoctorIsFullException>();
-
-
         }
 
+        [Fact]
+        public void Update_updates_appointment_of_patient_properly()
+        {
+            var doctor = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor));
+
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var doctor2 = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor2));
+
+            var appointment = new Appointment
+            {
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 27)
+            };
+            _dbContext.Manipulate(_ => _.Add(appointment));
+
+            var dto = new UpdateAppointmentDto
+            {
+                DoctorId = doctor2.Id,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 28)
+
+            };
+
+            _sut.Update(dto, doctor.Id);
+            var expected = _dbContext.Appointments.FirstOrDefault();
+            expected.DoctorId.Should().Be(dto.DoctorId);
+            expected.PatientId.Should().Be(dto.PatientId);
+            expected.Date.Should().Be(dto.Date);
+        }
 
         public List<Patient> Create_list_of_patients()
         {

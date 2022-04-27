@@ -23,6 +23,11 @@ namespace DoctorAppointment.Persistence.EF.Appointments
             _.Date == dateTime).Count();
         }
 
+        public Appointment FindById(int id)
+        {
+            return _dbContext.Appointments.Find(id);
+        }
+
         public void MakeAppointment(Appointment appointment)
         {
             _dbContext.Add(appointment);
