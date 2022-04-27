@@ -22,6 +22,13 @@ namespace DoctorAppointment.Persistence.EF.Patients
             _dbContext.Patients.Add(patient);
         }
 
+        public void Delete(int id)
+        {
+            var patient = FindById(id);
+
+            _dbContext.Patients.Remove(patient);
+        }
+
         public Patient FindById(int id)
         {
             return _dbContext.Patients.Find(id);

@@ -41,6 +41,18 @@ namespace DoctorAppointment.Service.Patients
             _unitOfWork.Commit();
         }
 
+        public void Delete(int id)
+        {
+            var patient = _patientRipository.FindById(id);
+            if(patient == null)
+            {
+                throw new PatientDoesNotExistForDeleteException();
+            }
+
+            _patientRipository.Delete(id);
+            _unitOfWork.Commit();
+        }
+
         public List<GetPatientDto> GetAll()
         {
             return _patientRipository.GetAll();
@@ -49,6 +61,11 @@ namespace DoctorAppointment.Service.Patients
         public void Update(UpdatePatientDto dto, int id)
         {
             var patient = _patientRipository.FindById(id);
+
+            if(patient == null)
+            {
+                throw new PatientDoesNotExistForUpdateException();
+            }
 
             patient.FirstName = dto.FirstName;
             patient.LastName = dto.LastName;

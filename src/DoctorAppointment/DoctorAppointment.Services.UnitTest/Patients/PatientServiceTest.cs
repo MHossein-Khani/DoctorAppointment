@@ -99,6 +99,53 @@ namespace DoctorAppointment.Services.UnitTest.Patients
             expected.NationalCode.Should().Be(dto.NationalCode);
         }
 
+        [Fact]
+        public void Throw_Exception_if_PatientDoesNotExistException_when_updating_a_patient()
+        {
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var fakeID = 100;
+
+            var dto = new UpdatePatientDto
+            {
+                FirstName = "test",
+                LastName = "test",
+                NationalCode = "1234"
+            };
+
+            Action expected  = () => _sut.Update(dto, fakeID);
+            expected.Should().ThrowExactly<PatientDoesNotExistForUpdateException>();
+        }
+
+        [Fact]
+        public void Delete_deletes_a_doctor_properly()
+        {
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            _sut.Delete(patient.Id);
+
+            _dbContext.Patients.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public void Throw_Exception_if_PatientDoesNotExistException_when_deleting_a_patient()
+        {
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var fakeId = 100;
+
+            Action expected = () => _sut.Delete(fakeId);
+            expected.Should().ThrowExactly<PatientDoesNotExistForDeleteException>();
+        }
+
+
+
+
+
+
 
         public List<Patient> Create_list_of_patients()
         {

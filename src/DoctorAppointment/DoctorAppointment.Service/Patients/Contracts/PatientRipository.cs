@@ -17,5 +17,7 @@ namespace DoctorAppointment.Service.Patients.Contracts
 
         Patient FindById(int id);
 
+        void Delete(int id);
+
     }
 }
