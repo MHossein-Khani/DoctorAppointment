@@ -141,12 +141,6 @@ namespace DoctorAppointment.Services.UnitTest.Patients
             expected.Should().ThrowExactly<PatientDoesNotExistForDeleteException>();
         }
 
-
-
-
-
-
-
         public List<Patient> Create_list_of_patients()
         {
             var patients = new List<Patient>()
