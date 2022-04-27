@@ -59,7 +59,7 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
         public void Throw_Exception_if_AppointmentOfDoctorIsFullException_when_appointment_of_a_foctor_is_grater_than_five()
         {
             Doctor doctor = CreateDoctorWith5AppointmentInOneDay();
-            _dbContext.Manipulate(_ => _.AddRange(doctor));
+            _dbContext.Manipulate(_ => _.Add(doctor));
             var patient = PatientFactory.CreatePatient();
             _dbContext.Manipulate(_ => _.Add(patient));
 
@@ -118,6 +118,27 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
             expected.DoctorId.Should().Be(dto.DoctorId);
             expected.PatientId.Should().Be(dto.PatientId);
             expected.Date.Should().Be(dto.Date);
+        }
+        
+        [Fact]
+        public void Throw_Exception_if_AppointmentIsAlreadyExistException_when_updating_a_appointment()
+        {
+            Doctor doctor = CreateDoctorWith5AppointmentInOneDay();
+            _dbContext.Manipulate(_ => _.Add(doctor));
+
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var dto = new UpdateAppointmentDto
+            {
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+                Date = DateTime.Now.Date
+            };
+
+            Action expected = () => _sut.Update(dto, doctor.Id);
+
+            expected.Should().ThrowExactly<AppointmentIsAlreadyExistException>();
         }
 
         [Fact]
@@ -233,45 +254,6 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
                 .Build();
         }
 
-    }
-
-
-    public class DoctorBuilder
-    {
-        private Doctor doctor;
-
-        public DoctorBuilder()
-        {
-            doctor = new Doctor
-            {
-                FirstName = "Hossein",
-                LastName = "Khani",
-                NationalCode = "123456",
-                Field =""
-            };
-        }
-
-        public DoctorBuilder WithAppointment(DateTime date, string firstName,
-            string lastName,string patientNationlCode)
-        {
-            doctor.Appointments.Add(new Appointment
-            {
-                Date = date,
-                Patient = new Patient
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    NationalCode = patientNationlCode,
-                }
-            });
-
-            return this;
-        }
-
-        public Doctor Build()
-        {
-            return doctor;
-        }
     }
 
 }

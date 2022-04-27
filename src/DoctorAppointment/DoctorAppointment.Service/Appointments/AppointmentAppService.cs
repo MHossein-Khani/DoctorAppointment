@@ -55,6 +55,12 @@ namespace DoctorAppointment.Service.Appointments
 
         public void Update(UpdateAppointmentDto dto, int id)
         {
+            var countOfappointment = _appointmentRipository.Count(dto.DoctorId, dto.Date);
+            if (countOfappointment >= 5)
+            {
+                throw new AppointmentIsAlreadyExistException();
+            }
+
             var appointmentOfDoctor = _appointmentRipository.FindById(id);
             if(appointmentOfDoctor == null)
             {
