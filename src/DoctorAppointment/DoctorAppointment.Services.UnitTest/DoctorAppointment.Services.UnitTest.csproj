@@ -23,6 +23,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\DoctorAppointment.Persistence.EF\DoctorAppointment.Persistence.EF.csproj" />
 		<ProjectReference Include="..\DoctorAppointment.Service\DoctorAppointment.Service.csproj" />
+		<ProjectReference Include="..\DoctorAppointment.Test.Tool\DoctorAppointment.Test.Tool.csproj" />
 	</ItemGroup>
 
 </Project>
