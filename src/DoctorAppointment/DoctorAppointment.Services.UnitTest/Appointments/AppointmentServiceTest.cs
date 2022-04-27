@@ -11,8 +11,6 @@ using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DoctorAppointment.Services.UnitTest.Appointments
@@ -77,16 +75,6 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
             expected.Should().ThrowExactly<AppointmentOfDoctorIsFullException>();
         }
 
-        private static Doctor CreateDoctorWith5AppointmentInOneDay()
-        {
-            return new DoctorBuilder()
-                .WithAppointment(DateTime.Now.Date, "as", "fr", "7878")
-                .WithAppointment(DateTime.Now.Date, "gt", "nb", "6565")
-                .WithAppointment(DateTime.Now.Date, "ld", "yv", "4030")
-                .WithAppointment(DateTime.Now.Date, "mk", "qw", "6598")
-                .WithAppointment(DateTime.Now.Date, "nt", "cw", "1245")
-                .Build();
-        }
 
         [Fact]
         public void GetAll_returns_all_appointments_properly()
@@ -234,6 +222,16 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
             return appointments;
         }
 
+        private static Doctor CreateDoctorWith5AppointmentInOneDay()
+        {
+            return new DoctorBuilder()
+                .WithAppointment(DateTime.Now.Date, "as", "fr", "7878")
+                .WithAppointment(DateTime.Now.Date, "gt", "nb", "6565")
+                .WithAppointment(DateTime.Now.Date, "ld", "yv", "4030")
+                .WithAppointment(DateTime.Now.Date, "mk", "qw", "6598")
+                .WithAppointment(DateTime.Now.Date, "nt", "cw", "1245")
+                .Build();
+        }
 
     }
 

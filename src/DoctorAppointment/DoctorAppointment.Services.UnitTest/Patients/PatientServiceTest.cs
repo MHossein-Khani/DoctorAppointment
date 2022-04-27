@@ -11,8 +11,6 @@ using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DoctorAppointment.Services.UnitTest.Patients
@@ -45,10 +43,10 @@ namespace DoctorAppointment.Services.UnitTest.Patients
             };
 
             _sut.Create(dto);
+           
             _dbContext.Patients.Should().Contain(p => p.FirstName == dto.FirstName &&
             p.LastName == dto.LastName && 
             p.NationalCode == dto.NationalCode);
-
         }
 
         [Fact]
@@ -56,7 +54,6 @@ namespace DoctorAppointment.Services.UnitTest.Patients
         {
             var patient = PatientFactory.CreatePatient();
             _dbContext.Manipulate(_ => _.Add(patient));
-
             var dto = new CreatePatientDto
             {
                 FirstName = "Hossien",
@@ -65,6 +62,7 @@ namespace DoctorAppointment.Services.UnitTest.Patients
             };
 
             Action expected = () => _sut.Create(dto);
+           
             expected.Should().ThrowExactly<PatientIsAlreadyExistException>();
         }
 
