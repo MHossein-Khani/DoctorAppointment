@@ -14,5 +14,9 @@ namespace DoctorAppointment.Service.Appointments.Contract
         void MakeAppointment(Appointment appointment);
 
         Appointment FindById(int id);
+
+        void Delete(int id);
+
+        List<GetAppointmentDto> GetAll();
     }
 }

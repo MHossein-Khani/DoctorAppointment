@@ -23,9 +23,25 @@ namespace DoctorAppointment.Persistence.EF.Appointments
             _.Date == dateTime).Count();
         }
 
+        public void Delete(int id)
+        {
+            var appointment = FindById(id);
+            _dbContext.Appointments.Remove(appointment);
+        }
+
         public Appointment FindById(int id)
         {
             return _dbContext.Appointments.Find(id);
+        }
+
+        public List<GetAppointmentDto> GetAll()
+        {
+            return _dbContext.Appointments.Select(_ => new GetAppointmentDto
+            {
+                DoctorId = _.DoctorId,
+                PatientId = _.PatientId,
+                Date = _.Date,
+            }).ToList();
         }
 
         public void MakeAppointment(Appointment appointment)

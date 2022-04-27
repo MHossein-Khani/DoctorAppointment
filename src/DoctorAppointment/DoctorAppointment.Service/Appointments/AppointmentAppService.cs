@@ -2,6 +2,7 @@
 using DoctorAppointment.Infrastructure.Application;
 using DoctorAppointment.Service.Appointments.AppointmentExceptions;
 using DoctorAppointment.Service.Appointments.Contract;
+using System.Collections.Generic;
 
 namespace DoctorAppointment.Service.Appointments
 {
@@ -14,6 +15,23 @@ namespace DoctorAppointment.Service.Appointments
         {
             _appointmentRipository = appointmentRipository;
             _unitOfWork = unitOfWork;
+        }
+
+        public void Delete(int id)
+        {
+            var appointment = _appointmentRipository.FindById(id);
+            if (appointment == null)
+            {
+                throw new AppointmentDoesNotSetException();
+            };
+
+            _appointmentRipository.Delete(id);
+            _unitOfWork.Commit();
+        }
+
+        public List<GetAppointmentDto> GetAll()
+        {
+            return _appointmentRipository.GetAll();
         }
 
         public void MakeAppointment(CreateAppointmentDto dto)
@@ -38,9 +56,15 @@ namespace DoctorAppointment.Service.Appointments
         public void Update(UpdateAppointmentDto dto, int id)
         {
             var appointmentOfDoctor = _appointmentRipository.FindById(id);
+            if(appointmentOfDoctor == null)
+            {
+                throw new DoctorDoesNotExitForChangeTheDoctorException();
+            }
 
             appointmentOfDoctor.DoctorId = dto.DoctorId;
             appointmentOfDoctor.Date = dto.Date;
+
+            _unitOfWork.Commit();
         }
     }
 }

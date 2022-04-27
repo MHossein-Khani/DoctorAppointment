@@ -60,15 +60,8 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
         [Fact]
         public void Throw_Exception_if_AppointmentOfDoctorIsFullException_when_appointment_of_a_foctor_is_grater_than_five()
         {
-            var doctor = new DoctorBuilder()
-                .WithAppointment(DateTime.Now.Date ,"as", "fr", "7878")
-                .WithAppointment(DateTime.Now.Date, "gt", "nb", "6565")
-                .WithAppointment(DateTime.Now.Date, "ld", "yv", "4030")
-                .WithAppointment(DateTime.Now.Date, "mk", "qw", "6598")
-                .WithAppointment(DateTime.Now.Date, "nt", "cw", "1245")
-                .Build();
+            Doctor doctor = CreateDoctorWith5AppointmentInOneDay();
             _dbContext.Manipulate(_ => _.AddRange(doctor));
-
             var patient = PatientFactory.CreatePatient();
             _dbContext.Manipulate(_ => _.Add(patient));
 
@@ -76,11 +69,32 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
             {
                 DoctorId = doctor.Id,
                 PatientId = patient.Id,
-                Date =DateTime.Now.Date
+                Date = DateTime.Now.Date
             };
 
             Action expected = () => _sut.MakeAppointment(dto);
+
             expected.Should().ThrowExactly<AppointmentOfDoctorIsFullException>();
+        }
+
+        private static Doctor CreateDoctorWith5AppointmentInOneDay()
+        {
+            return new DoctorBuilder()
+                .WithAppointment(DateTime.Now.Date, "as", "fr", "7878")
+                .WithAppointment(DateTime.Now.Date, "gt", "nb", "6565")
+                .WithAppointment(DateTime.Now.Date, "ld", "yv", "4030")
+                .WithAppointment(DateTime.Now.Date, "mk", "qw", "6598")
+                .WithAppointment(DateTime.Now.Date, "nt", "cw", "1245")
+                .Build();
+        }
+
+        [Fact]
+        public void GetAll_returns_all_appointments_properly()
+        {
+            var appointments = Create_list_of_appointment();
+            _dbContext.Manipulate(_ => _.AddRange(appointments));
+
+            var expected = _sut.GetAll();
         }
 
         [Fact]
@@ -118,47 +132,106 @@ namespace DoctorAppointment.Services.UnitTest.Appointments
             expected.Date.Should().Be(dto.Date);
         }
 
-        public List<Patient> Create_list_of_patients()
+        [Fact]
+        public void Throw_Exception_if_DoctorDoesNotExitForChangeTheDoctorException_when_patient_want_to_change_appointment()
         {
-            var patients = new List<Patient>()
+
+            var doctor = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor));
+
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var fakeId = 100;
+
+            var appointment = new Appointment
             {
-                new Patient
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 27)
+            };
+            _dbContext.Manipulate(_ => _.Add(appointment));
+
+            var dto = new UpdateAppointmentDto
+            {
+                DoctorId = fakeId,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 28)
+            };
+
+            Action expected = () => _sut.Update(dto, dto.DoctorId);
+            expected.Should().ThrowExactly<DoctorDoesNotExitForChangeTheDoctorException>();
+        }
+
+        [Fact]
+        public void Delete_deletes_a_appointment_for_patient_properly()
+        {
+            var doctor = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor));
+
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var appointment = new Appointment
+            {
+                DoctorId = doctor.Id,
+                PatientId = patient.Id,
+                Date = new DateTime(2022, 04, 27)
+            };
+            _dbContext.Manipulate(_ => _.Add(appointment));
+
+            _sut.Delete(appointment.Id);
+            _dbContext.Appointments.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public void Throw_exception_if_AppointmentDoesNotSetException_when_deleting_a_appointment()
+        {
+            var doctor = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor));
+
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var fakeId = 100;
+
+            Action expected = () => _sut.Delete(fakeId);
+            expected.Should().ThrowExactly<AppointmentDoesNotSetException>();
+        }
+
+
+        public List<Appointment> Create_list_of_appointment()
+        {
+            var doctor = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor));
+
+            var patient = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient));
+
+            var doctor2 = DoctorFactory.CreateDoctor();
+            _dbContext.Manipulate(_ => _.Add(doctor2));
+
+            var patient2 = PatientFactory.CreatePatient();
+            _dbContext.Manipulate(_ => _.Add(patient2));
+
+            var appointments = new List<Appointment>
+            {
+                new Appointment
                 {
-                    FirstName = "Hossien",
-                    LastName = "Khani",
-                    NationalCode = "2281892125",
+                    DoctorId = doctor.Id,
+                    PatientId = patient.Id,
+                    Date = new DateTime(2022, 04, 25)
                 },
 
-                new Patient
+                 new Appointment
                 {
-                    FirstName = "Ahmad",
-                    LastName = "Yagoubi",
-                    NationalCode = "124",
-                },
-
-                new Patient
-                {
-                    FirstName = "as",
-                    LastName = "bi",
-                    NationalCode = "127",
-                },
-
-                new Patient
-                {
-                    FirstName = "tr",
-                    LastName = "hg",
-                    NationalCode = "4587",
-                },
-
-                new Patient
-                {
-                    FirstName = "lk",
-                    LastName = "loi",
-                    NationalCode = "7878",
+                    DoctorId = doctor2.Id,
+                    PatientId = patient2.Id,
+                    Date = new DateTime(2022, 04, 28)
                 }
             };
 
-            return patients;
+            return appointments;
         }
 
 
